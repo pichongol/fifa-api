@@ -1,7 +1,5 @@
 <?php
     
-    namespace App\newFUT;
-    
     //Laravel Providers
     use Illuminate\Support\Facades\Log;
     
