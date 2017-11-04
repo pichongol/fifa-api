@@ -1,8 +1,5 @@
 <?php
     
-    //Laravel Providers
-    use Illuminate\Support\Facades\Log;
-    
     //Custom Providers
     use GuzzleHttp\Client;
 	use GuzzleHttp\Psr7\Request;
