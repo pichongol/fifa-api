@@ -1,7 +1,5 @@
 <?php
     
-    namespace App\newFUT;
-    
     trait Config {
         
         public $headers = [
