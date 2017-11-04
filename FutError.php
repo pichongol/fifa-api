@@ -1,7 +1,5 @@
 <?php
 	
-	namespace App\newFUT;
-	
 	class FutError extends \Exception {
 
     		private $_options;
