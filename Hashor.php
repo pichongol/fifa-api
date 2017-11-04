@@ -1,7 +1,5 @@
 <?php
     
-    namespace App\newFUT;
-    
 	trait Hashor {
 
 		private $string = null;
