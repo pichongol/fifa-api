@@ -405,10 +405,10 @@
             return $response;
         }
         
-        public function search($ctype = 'player', $level = null, $category = null, $assetId = null, $defId = null, $min_price = null, $max_price = null, $min_buy = null, $max_buy = null, $league = null, $club = null, $position = null, $zone = null, $nationality = null, $rare = false, $playStyle = null, $start = 0, $page_size = 16, $fast = false) {
+        public function searchAuctions($ctype = 'player', $level = null, $category = null, $assetId = null, $defId = null, $min_price = null, $max_price = null, $min_buy = null, $max_buy = null, $league = null, $club = null, $position = null, $zone = null, $nationality = null, $rare = false, $playStyle = null, $start = 0, $page_size = 16, $fast = false) {
             if($start == 0) {
                 $events = $this->pin->event('page_view', 'Transfer Market Search');
-                $this->pin->send();
+                $this->pin->send($events);
             }
             $params = [
                 'start' => $start,
