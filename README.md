@@ -10,6 +10,11 @@ FIFA 18 WebApp API
 Manage your FIFA 18 Ultimate Team using this FIFA 18 Ultimate Team API.
 Written solely in PHP
 
+Requirements
+=======
+
+Guzzle 6+
+
 Documentation
 =============
 
@@ -38,6 +43,7 @@ Optional parameters:
 - cookies: [filename] path to cookies file, if not provided it'll be created in a 'cookies' directory.
 
 ```php
+require 'Config.php';
 require 'Core.php';
 $fut = new Core('email', 'password', 'secret answer', 'platform', 'backup_code');
 ```
