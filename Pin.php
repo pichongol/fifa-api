@@ -18,13 +18,15 @@
             //pinvars
             $response = (new Client)->get("https://www.easports.com/fifa/ultimate-team/web-app/js/compiled_1.js")->getBody();
             $this->sku = $m[preg_match('/enums.SKU.FUT="(.+?)"/', $response, $m)];
-            $this->taxv = $m[preg_match('/PinManager.TAXONOMY_VERSION=([0-9\.]+)/', $response, $m)];
-            $this->tidt = $m[preg_match('/PinManager.TITLE_ID_TYPE="(.+?)"/', $response, $m)];
             $this->rel = $m[preg_match('/rel:"(.+?)"/', $response, $m)];
             $this->gid = $m[preg_match('/gid:([0-9]+?)/', $response, $m)];
             $this->plat = $m[preg_match('/plat:"(.+?)"/', $response, $m)];
             $this->et = $m[preg_match('/et:"(.+?)"/', $response, $m)];
             $this->pidt = $m[preg_match('/pidt:"(.+?)"/', $response, $m)];
+	    //pinvars 2
+            $response = (new Client)->get("https://www.easports.com/fifa/ultimate-team/web-app/js/compiled_2.js")->getBody();
+            $this->taxv = $m[preg_match('/PinManager.TAXONOMY_VERSION=([0-9\.]+)/', $response, $m)];
+            $this->tidt = $m[preg_match('/PinManager.TITLE_ID_TYPE="(.+?)"/', $response, $m)];
             //headers
             $this->headers = [
                 'Origin' => 'https://www.easports.com',
