@@ -33,12 +33,12 @@
             ]);
             switch(strtolower($emulate)) {
                 case 'and':
-                    throw new CustomException("Emulate feature is currently disabled due to latest changes in login process", 0, null, [
+                    throw new FutError("Emulate feature is currently disabled due to latest changes in login process", 0, null, [
         				"reason" => "disabled_feature"
         			]);
                 break;
                 case 'ios':
-                    throw new CustomException("Emulate feature is currently disabled due to latest changes in login process", 0, null, [
+                    throw new FutError("Emulate feature is currently disabled due to latest changes in login process", 0, null, [
         				"reason" => "disabled_feature"
         			]);
                 break;
@@ -65,7 +65,7 @@
                     $game_sku = 'FFA18PS4';
                 break;
                 default:
-                    throw new CustomException("Wrong platform. (Valid ones are pc/xbox/xbox360/ps3/ps4)", 0, null, [
+                    throw new FutError("Wrong platform. (Valid ones are pc/xbox/xbox360/ps3/ps4)", 0, null, [
         				"reason" => "invalid_platform"
         			]);
                 break;
