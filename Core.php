@@ -70,7 +70,7 @@
         			]);
                 break;
             }
-            $this->sku_a = 'FFT18';
+            $this->sku_b = 'FFT18';
             $params = [
                 'prompt' => 'login',
                 'accessToken' => '',
@@ -270,7 +270,7 @@
 			        ]
 				)),
 				'query' => [
-				    'sku_a' => $this->sku_a,
+				    'sku_b' => $this->sku_b,
 				    '' => (int)time() * 1000
 				],
 				'headers' => $this->clientHeaders
@@ -449,7 +449,7 @@
                 $response = $this->request('POST', 'trade/'.$trade_id.'/bid', [
                    'bid' => $bid
                 ], [
-                    'sku_a' => $this->sku_a
+                    'sku_b' => $this->sku_b
                 ]);
             } catch(FutError $e) {
                 return false;
@@ -540,7 +540,7 @@
 				'startingBid' => $bid,
 				'duration' => $time
             ], [
-                'sku_a' => $this->sku_a
+                'sku_b' => $this->sku_b
             ]);
             if(!$fast) {
                 $this->tradeStatus($response['id']);
