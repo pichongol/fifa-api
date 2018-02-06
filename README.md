@@ -27,7 +27,7 @@ Python source provided by: https://github.com/futapi/fut/
 Contact
 =======
 
-Email: admin@curtiscrewe.co.uk
+Skype: bws-curtis
 
 Usage
 =====
