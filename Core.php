@@ -30,6 +30,8 @@ class Core {
     private $questionId, $questionAttempts = 0;
 
     private $pin = null;
+    
+    private $debug = false;
 
     private $__usermassinfo = [];
 
@@ -41,6 +43,7 @@ class Core {
         $this->cookies_files = ($cookies == false ? dirname(__FILE__)."/cookies/".base64_encode($email) : $cookies);
         $this->clientHeaders = [];
         $this->__usermassinfo = null;
+        $this->debug = $debug;
         $this->login_info = [
             'email' => $email,
             'password' => $password,
@@ -777,7 +780,8 @@ class Core {
                 $response = $this->client->request('GET', $url, [
                     'query' => $params,
                     'body' => json_encode($data),
-                    'headers' => $this->clientHeaders
+                    'headers' => $this->clientHeaders,
+                    'debug' => $this->debug
                 ]);
                 break;
             case "POST":
@@ -785,14 +789,16 @@ class Core {
                 $response = $response = $this->client->request('POST', $url, [
                     'query' => $params,
                     'body' => json_encode($data),
-                    'headers' => $this->clientHeaders
+                    'headers' => $this->clientHeaders,
+                    'debug' => $this->debug
                 ]);
                 break;
             case "JSON":
                 $response = $response = $this->client->request('POST', $url, [
                     'query' => $params,
                     'body' => json_encode($data),
-                    'headers' => $this->clientHeaders
+                    'headers' => $this->clientHeaders,
+                    'debug' => $this->debug
                 ]);
                 break;
             default:
@@ -800,7 +806,8 @@ class Core {
                 $response = $response = $this->client->request('POST', $url, [
                     'query' => $params,
                     'body' => json_encode($data),
-                    'headers' => $this->clientHeaders
+                    'headers' => $this->clientHeaders,
+                    'debug' => $this->debug
                 ]);
                 break;
         }
