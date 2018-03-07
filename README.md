@@ -13,7 +13,7 @@ Written solely in PHP
 Installing FUTApi
 =======
 
-The recommended way to install Guzzle is through
+The recommended way to install FIFA 18 WebApp API is through
 [Composer](http://getcomposer.org).
 
 ```bash
