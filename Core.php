@@ -725,7 +725,7 @@ class Core {
     }
 
     public function objectives($scope = 'all') {
-        $response = $this->request('GET', 'user/dynamicobjectives', [], ['scope' => $score]);
+        $response = $this->request('GET', 'user/dynamicobjectives', [], ['scope' => $scope]);
         return $response;
     }
 
