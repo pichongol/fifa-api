@@ -759,6 +759,10 @@ class Core {
         }
         return $assetId;
     }
+    
+    public function setHeaders(array $array) {
+    	$this->clientHeaders = array_merge($this->clientHeaders, $array);
+    }
 
     public function request($method, $url, $data = [], $params = [], $delay = false) {
         $url = 'https://'.$this->fut_host.'/ut/game/fifa18/'.$url;
