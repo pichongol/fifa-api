@@ -1,5 +1,7 @@
 <?php
     
+    namespace FUTApi;
+    
 	trait Hashor {
 
 		private $string = null;

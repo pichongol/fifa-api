@@ -1,5 +1,7 @@
 <?php
 	
+	namespace FUTApi;
+	
 	class FutError extends \Exception {
 
     		private $_options;

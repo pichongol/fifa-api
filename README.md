@@ -10,10 +10,28 @@ FIFA 18 WebApp API
 Manage your FIFA 18 Ultimate Team using this FIFA 18 Ultimate Team API.
 Written solely in PHP
 
-Requirements
+Installing FUTApi
 =======
 
-Guzzle 6+
+The recommended way to install Guzzle is through
+[Composer](http://getcomposer.org).
+
+```bash
+# Install Composer
+curl -sS https://getcomposer.org/installer | php
+```
+
+Next, run the Composer command to install the latest stable version of Guzzle:
+
+```bash
+composer require inkedcurtis/FUT-API
+```
+
+After installing, you need to require Composer's autoloader:
+
+```php
+require 'vendor/autoload.php';
+```
 
 Documentation
 =============
@@ -28,6 +46,7 @@ Contact
 =======
 
 Skype: bws-curtis
+Email: admin@curtiscrewe.co.uk
 
 Usage
 =====
@@ -43,10 +62,19 @@ Optional parameters:
 - cookies: [filename] path to cookies file, if not provided it'll be created in a 'cookies' directory.
 
 ```php
-require 'Config.php';
-require 'Core.php';
+require 'vendor/autoload.php';
 $fut = new Core('email', 'password', 'secret answer', 'platform', 'backup_code');
+$login = $fut->login();
 ```
+
+After you have initiated your first session, you can then use the API wthout logging in again using the session info from your original login array:
+
+```php
+require 'vendor/autoload.php';
+$fut = new Core('email', 'password', 'secret answer', 'platform', 'backup_code');
+$fut->setSession($persona, $nucleus, $phishing, $session, $dob);
+```
+
     
 Search
 ------

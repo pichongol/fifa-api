@@ -1,6 +1,6 @@
 <?php
 
-namespace App\FUT;
+namespace FUTApi;
 
 //Custom Providers
 use GuzzleHttp\Client;
@@ -21,22 +21,29 @@ class Core {
 
     private $time = 0;
 
+    private $credits = 0;
+
+    private $game_sku, $sku = null;
+
+    private $clientVersion = 0;
+
+    private $questionId, $questionAttempts = 0;
+
+    private $pin = null;
+
     private $__usermassinfo = [];
 
-    public function __construct($email, $passwd, $secret_answer, $platform, $code = null, $totp = null, $sms = false, $emulate = false, $debug = false, $cookies = false) {
+    private $access_token, $token_type = null;
+
+    public function __construct($email, $password, $secret_answer, $platform, $code = null, $totp = null, $sms = false, $emulate = false, $debug = false, $cookies = false) {
         $this->credits = 0;
         $this->questionId = 0;
         $this->cookies_files = ($cookies == false ? dirname(__FILE__)."/cookies/".base64_encode($email) : $cookies);
         $this->clientHeaders = [];
-        $this->request_time = 0;
-        $this->__players = null;
-        $this->__nations = null;
-        $this->__leagues = null;
-        $this->__teams = null;
         $this->__usermassinfo = null;
         $this->login_info = [
             'email' => $email,
-            'password' => $passwd,
+            'password' => $password,
             'secret_answer' => $secret_answer,
             'platform' => $platform,
             'backup_code' => $code,
@@ -44,26 +51,6 @@ class Core {
             'sms' => $sms,
             'emulate' => $emulate
         ];
-    }
-
-    /*
-     * Just a shorthand helper to keep it simple.
-     */
-    public function login() {
-        return $this->__login__(
-            $this->login_info['email'],
-            $this->login_info['password'],
-            $this->login_info['secret_answer'],
-            $this->login_info['platform'],
-            $this->login_info['backup_code'],
-            $this->login_info['totp'],
-            $this->login_info['sms'],
-            $this->login_info['emulate']
-        );
-    }
-
-    public function __login__($email, $passwd, $secret_answer, $platform, $code = null, $totp = null, $sms = null, $emulate = null) {
-        $secret_answer_hash = $this->getHash($secret_answer);
         $this->client = new Client([
             'cookies' => new FileCookieJar($this->cookies_files, true),
             'http_errors' => false,
@@ -82,25 +69,25 @@ class Core {
                 break;
             default:
                 $this->clientHeaders = $this->headers['web'];
-                $sku = 'FUT18WEB';
-                $clientVersion = 1;
+                $this->sku = 'FUT18WEB';
+                $this->clientVersion = 1;
                 break;
         }
         switch(strtolower($platform)) {
             case 'pc':
-                $game_sku = 'FFA18PCC';
+                $this->game_sku = 'FFA18PCC';
                 break;
             case 'xbox':
-                $game_sku = 'FFA18XBO';
+                $this->game_sku = 'FFA18XBO';
                 break;
             case 'xbox360':
-                $game_sku = 'FFA18XBX';
+                $this->game_sku = 'FFA18XBX';
                 break;
             case 'ps3':
-                $game_sku = 'FFA18PS3';
+                $this->game_sku = 'FFA18PS3';
                 break;
             case 'ps4':
-                $game_sku = 'FFA18PS4';
+                $this->game_sku = 'FFA18PS4';
                 break;
             default:
                 throw new FutError("Wrong platform. (Valid ones are pc/xbox/xbox360/ps3/ps4)", 0, null, [
@@ -108,6 +95,33 @@ class Core {
                 ]);
                 break;
         }
+    }
+
+    public function login() {
+        return $this->__login__(
+            $this->login_info['email'],
+            $this->login_info['password'],
+            $this->login_info['secret_answer'],
+            $this->login_info['platform'],
+            $this->login_info['backup_code'],
+            $this->login_info['totp'],
+            $this->login_info['sms'],
+            $this->login_info['emulate']
+        );
+    }
+
+    public function setSession($persona, $nucleus, $phishing, $session, $dob) {
+        $this->clientHeaders['Easw-Session-Data-Nucleus-Id'] = $nucleus;
+        $this->clientHeaders['X-UT-SID'] = $session;
+        $this->clientHeaders['X-UT-PHISHING-TOKEN'] = $phishing;
+        //init host
+        $this->fut_host = $this->fut_host[$this->login_info['platform']];
+        //init pin
+        $this->pin = new Pin($session, $nucleus, $persona, $dob, $this->login_info['platform']);
+    }
+
+    public function __login__($email, $passwd, $secret_answer, $platform, $code = null, $totp = null, $sms = null, $emulate = null) {
+        $secret_answer_hash = $this->getHash($secret_answer);
         $this->sku_b = 'FFT18';
         $params = [
             'prompt' => 'login',
@@ -120,7 +134,7 @@ class Core {
             'scope' => 'basic.identity offline signin'
         ];
         $this->clientHeaders['Referer'] = 'https://www.easports.com/fifa/ultimate-team/web-app/';
-        $response = $this->client->get("https://accounts.ea.com/connect/auth", [
+        $this->client->get("https://accounts.ea.com/connect/auth", [
             'query' => $params,
             'headers' => $this->clientHeaders,
             'on_stats' => function (TransferStats $stats) use (&$url) {
@@ -227,12 +241,12 @@ class Core {
             }
         }
         preg_match('/https:\/\/www.easports.com\/fifa\/ultimate-team\/web-app\/auth.html#access_token=(.+?)&token_type=(.+?)&expires_in=[0-9]+/', $url, $matches);
-        $access_token = $matches[1];
-        $token_type = $matches[2];
-        $response = $this->client->get("https://www.easports.com/fifa/ultimate-team/web-app/");
+        $this->access_token = $matches[1];
+        $this->token_type = $matches[2];
+        $this->client->get("https://www.easports.com/fifa/ultimate-team/web-app/");
         $this->clientHeaders['Referer'] = 'https://www.easports.com/fifa/ultimate-team/web-app/';
         $this->clientHeaders['Accept'] = 'application/json';
-        $this->clientHeaders['Authorization'] = $token_type.' '.$access_token;
+        $this->clientHeaders['Authorization'] = $this->token_type.' '.$this->access_token;
         $response = json_decode($this->client->get("https://gateway.ea.com/proxy/identity/pids/me", [
             'headers' => $this->clientHeaders
         ])->getBody(), true);
@@ -243,7 +257,7 @@ class Core {
         $this->time = (int)(time() * 1000);
 
         //shards
-        $response = $this->client->get("https://".$this->auth_url."/ut/shards/v2", [
+        $this->client->get("https://".$this->auth_url."/ut/shards/v2", [
             'query' => [
                 '_' => $this->time
             ],
@@ -256,7 +270,7 @@ class Core {
         $response = json_decode($this->client->get("https://".$this->fut_host."/ut/game/fifa18/user/accountinfo", [
             'query' => [
                 'filterConsoleLogin' => 'true',
-                'sku' => $sku,
+                'sku' => $this->sku,
                 'returningUserGameYear' => '2017',
                 '_' => $this->time
             ],
@@ -270,7 +284,7 @@ class Core {
         foreach($response['userAccountInfo']['personas'] as $persona) {
             foreach($persona['userClubList'] as $club) {
                 if(array_key_exists('skuAccessList', $club)) {
-                    if(isset($club['skuAccessList'][$game_sku])) {
+                    if(isset($club['skuAccessList'][$this->game_sku])) {
                         $this->persona_id = $persona['personaId'];
                     }
                 }
@@ -290,7 +304,7 @@ class Core {
                 'client_id' => 'FOS-SERVER',
                 'redirect_uri' => 'nucleus:rest',
                 'response_type' => 'code',
-                'access_token' => $access_token
+                'access_token' => $this->access_token
             ],
             'headers' => $this->clientHeaders
         ])->getBody(), true);
@@ -300,10 +314,10 @@ class Core {
         $response = $this->client->request('POST', "https://".$this->fut_host."/ut/auth", [
             'body' => json_encode(array(
                 'isReadOnly' => false,
-                'sku' => $sku,
-                'clientVersion' => $clientVersion,
+                'sku' => $this->sku,
+                'clientVersion' => $this->clientVersion,
                 'nucleusPersonaId' => $this->persona_id,
-                'gameSku' => $game_sku,
+                'gameSku' => $this->game_sku,
                 'locale' => 'en-US',
                 'method' => 'authcode',
                 'priorityLevel' => 4,
@@ -377,6 +391,11 @@ class Core {
                         "reason" => 'account_locked'
                     ]);
                     break;
+                case "No Content":
+                    throw new FutError('Question is not setup.', 0, null, [
+                        "reason" => 'no_question',
+                    ]);
+                    break;
             }
         }
 
@@ -395,7 +414,8 @@ class Core {
             throw new FutError('WebApp Security Answer is wrong..', 0, null, [
                 "reason" => 'webapp_answer',
                 "question_id" => $this->questionId,
-                "question_attempts" => $this->questionAttempts
+                "question_text" => $this->questions[$this->questionId],
+                "question_attempts" => ($this->questionAttempts - 1)
             ]);
         }
         $this->clientHeaders['X-UT-PHISHING-TOKEN'] = $response['token'];
@@ -408,13 +428,6 @@ class Core {
             'headers' => $this->clientHeaders
         ])->getBody(), true);
         $this->time += 1;
-
-        //marketstatus
-        if ($this->__usermassinfo['userInfo']['feature']['trade'] == 0) {
-            throw new FutError('Transfer Market is disabled.', 0, null, [
-                "reason" => 'market_disabled',
-            ]);
-        }
 
         $piles = $this->pileSize();
         $this->tradepile_size = $piles['tradepile'];
@@ -438,7 +451,16 @@ class Core {
         return [
             'email' => $email,
             'mass_info' => $this->__usermassinfo,
-            'credits' => $this->credits
+            'credits' => $this->credits,
+            'auth' => [
+                'access_token' => $this->access_token,
+                'token_type' => $this->token_type,
+                'nucleus_id' => $nucleus_id,
+                'persona_id' => $this->persona_id,
+                'phishing_token' => $response['token'],
+                'session_id' => $sid,
+                'dob' => $dob
+            ]
         ];
     }
 
@@ -487,8 +509,8 @@ class Core {
         if(!is_null($playStyle)) { $params['playStyle'] = $playStyle; }
         $response = $this->request('GET', 'transfermarket', [], $params);
         if($start == 0) {
-            $events = $this->pin->event('page_view', 'Transfer Market Results - List View');
-            $this->pin->send();
+            $event = $this->pin->event('page_view', 'Transfer Market Results - List View');
+            $this->pin->send($event);
         }
         return $response;
     }

@@ -1,0 +1,11 @@
+{
+    "name": "inkedcurtis/FUT-API",
+    "description": "FIFA 18 WebApp API",
+    "keywords": ["fut", "fifa", "fifa api"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.0.0",
+        "guzzlehttp/guzzle": "^6.3",
+    }
+}

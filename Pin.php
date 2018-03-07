@@ -1,5 +1,7 @@
 <?php
     
+    namespace FUTApi;
+    
     //Custom Providers
     use GuzzleHttp\Client;
     use GuzzleHttp\Psr7\Request;
