@@ -67,7 +67,7 @@ use FUTApi\FutError;
 try {
     $fut = new Core('email', 'password', 'secret answer', 'platform', 'backup_code');
 } catch(FutError $e) {
-    $error = $exception->GetOptions();
+    $error = $e->GetOptions();
     die("We have an error logging in: ".$error['reason']);
 }
 $login = $fut->login();
