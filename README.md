@@ -62,15 +62,22 @@ Optional parameters:
 - cookies: [filename] path to cookies file, if not provided it'll be created in a 'cookies' directory.
 
 ```php
-require 'vendor/autoload.php';
-$fut = new Core('email', 'password', 'secret answer', 'platform', 'backup_code');
+use FUTApi\Core;
+use FUTApi\FutError;
+try {
+    $fut = new Core('email', 'password', 'secret answer', 'platform', 'backup_code');
+} catch(FutError $e) {
+    $error = $exception->GetOptions();
+    die("We have an error logging in: ".$error['reason']);
+}
 $login = $fut->login();
 ```
 
 After you have initiated your first session, you can then use the API wthout logging in again using the session info from your original login array:
 
 ```php
-require 'vendor/autoload.php';
+use FUTApi\Core;
+use FUTApi\FutError;
 $fut = new Core('email', 'password', 'secret answer', 'platform', 'backup_code');
 $fut->setSession($persona, $nucleus, $phishing, $session, $dob);
 ```
