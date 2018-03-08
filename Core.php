@@ -30,7 +30,7 @@ class Core {
     private $questionId, $questionAttempts = 0;
 
     private $pin = null;
-    
+
     private $debug = false;
 
     private $__usermassinfo = [];
@@ -57,7 +57,8 @@ class Core {
         $this->client = new Client([
             'cookies' => new FileCookieJar($this->cookies_files, true),
             'http_errors' => false,
-            'headers' => $this->clientHeaders
+            'headers' => $this->clientHeaders,
+            'timeout' => 10
         ]);
         switch(strtolower($emulate)) {
             case 'and':
@@ -260,29 +261,51 @@ class Core {
         $this->time = (int)(time() * 1000);
 
         //shards
-        $this->client->get("https://".$this->auth_url."/ut/shards/v2", [
-            'query' => [
-                '_' => $this->time
-            ],
-            'headers' => $this->clientHeaders
-        ])->getBody();
+        try {
+            $this->client->get("https://".$this->auth_url."/ut/shards/v2", [
+                'query' => [
+                    '_' => $this->time
+                ],
+                'headers' => $this->clientHeaders,
+                'timeout' => 5
+            ])->getBody();
+        } catch(\GuzzleHttp\Exception\ConnectException $e) {
+            $response = (string)$e->getResponse();
+            if($response == "") {
+                throw new FutError("EA servers appear to be offline.", 0, null, [
+                    "reason" => "servers_down"
+                ]);
+            }
+        } catch(\GuzzleHttp\Exception\RequestException $e) {
+            $response = (string)$e->getResponse();
+            if($response == "") {
+                throw new FutError("EA servers appear to be offline.", 0, null, [
+                    "reason" => "servers_down"
+                ]);
+            }
+        }
+
         $this->time += 1;
         $this->fut_host = $this->fut_host[$platform];
 
         //personas
-        $response = json_decode($this->client->get("https://".$this->fut_host."/ut/game/fifa18/user/accountinfo", [
-            'query' => [
-                'filterConsoleLogin' => 'true',
-                'sku' => $this->sku,
-                'returningUserGameYear' => '2017',
-                '_' => $this->time
-            ],
-            'headers' => $this->clientHeaders
-        ])->getBody(), true);
-        if($response == null) {
-            throw new FutError("Error getting account info (invalid console).", 0, null, [
-                "reason" => "invalid_console"
-            ]);
+        try {
+            $response = json_decode($this->client->get("https://" . $this->fut_host . "/ut/game/fifa18/user/accountinfo", [
+                'query' => [
+                    'filterConsoleLogin' => 'true',
+                    'sku' => $this->sku,
+                    'returningUserGameYear' => '2017',
+                    '_' => $this->time
+                ],
+                'timeout' => 5,
+                'headers' => $this->clientHeaders
+            ])->getBody(), true);
+        } catch(\GuzzleHttp\Exception\ConnectException $e) {
+            if($response == "") {
+                throw new FutError("EA servers appear to be offline.", 0, null, [
+                    "reason" => "servers_down"
+                ]);
+            }
         }
         foreach($response['userAccountInfo']['personas'] as $persona) {
             foreach($persona['userClubList'] as $club) {
@@ -762,7 +785,7 @@ class Core {
         }
         return $assetId;
     }
-    
+
     public function setHeaders(array $array) {
     	$this->clientHeaders = array_merge($this->clientHeaders, $array);
     }
