@@ -119,9 +119,9 @@ class Core {
         $this->clientHeaders['X-UT-SID'] = $session;
         $this->clientHeaders['X-UT-PHISHING-TOKEN'] = $phishing;
         //init host
-        $this->fut_host = $this->fut_host[$this->login_info['platform']];
+        $this->fut_host = $this->fut_host[strtolower($this->login_info['platform'])];
         //init pin
-        $this->pin = new Pin($session, $nucleus, $persona, $dob, $this->login_info['platform']);
+        $this->pin = new Pin($session, $nucleus, $persona, $dob, strtolower($this->login_info['platform']));
     }
 
     public function __login__($email, $passwd, $secret_answer, $platform, $code = null, $totp = null, $sms = null, $emulate = null) {
