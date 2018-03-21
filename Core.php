@@ -23,7 +23,7 @@ class Core {
 
     private $credits = 0;
 
-    private $game_sku, $sku = null;
+    private $game_sku, $sku, $sku_b = null;
 
     private $clientVersion = 0;
 
@@ -33,7 +33,7 @@ class Core {
 
     private $debug = false;
 
-    private $__usermassinfo = [];
+    private $__usermassinfo, $duplicates = [];
 
     private $access_token, $token_type = null;
 
@@ -658,6 +658,11 @@ class Core {
         return $response;
     }
 
+    public function removeSold($item_id) {
+        $response = $this->request('DELETE', 'trade/'.$item_id);
+        return $response;
+    }
+
     public function watchlistDelete($trade_id) {
         $response = $this->request('DELETE', 'watchlist', [], [
             'tradeId' => $trade_id
@@ -686,6 +691,11 @@ class Core {
                 ]
             ]
         ]);
+        return $response;
+    }
+
+    public function priceRange($definitionId = null) {
+        $response = $this->request('POST', 'marketdata/pricelimits?defId='.(is_array($definitionId) ? implode(",", $definitionId) : $definitionId));
         return $response;
     }
 
