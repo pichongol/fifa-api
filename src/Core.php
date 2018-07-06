@@ -858,7 +858,7 @@ class Core {
                     ]);
                     break;
                 case 458:
-                    $error = $this->pin->events('error');
+                    $error = $this->pin->event('error');
                     $this->pin->send($error);
                     $this->logout();
                     throw new FutError('Your account has received a captcha.', 0, null, [
