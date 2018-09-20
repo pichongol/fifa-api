@@ -10,6 +10,10 @@ FIFA 18 WebApp API
 Manage your FIFA 18 Ultimate Team using this FIFA 18 Ultimate Team API.
 Written solely in PHP
 
+DISCONTINUED
+=======
+If you wish to get a working API for FIFA 19 or require FIFA 19 projects to be completed, you can purchase access to my private repo via my Email or Skype address located below.
+
 Installing FUTApi
 =======
 
