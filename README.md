@@ -2,6 +2,7 @@
   Title: FIFA 19 WebApp API
   Description: A simply way to manage your FIFA 19 Ultimate Team with a PHP framework..
   Author: Curtis Crewe
+  Website: curtiscrewe.co.uk
   -->
 
 FIFA 19 WebApp API
@@ -9,6 +10,15 @@ FIFA 19 WebApp API
 
 Manage your FIFA 19 Ultimate Team using this FIFA 19 Ultimate Team API.
 Written solely in PHP
+
+FIFA 19 Projects
+=============
+
+If you require any projects/systems to be developed alongside the FIFA 19 WebApp API then be sure to contact me using one of the methods below.
+
+Skype: <strong>bws-curtis</strong><br/>
+Email: <strong>wscrewey@hotmail.com</strong>
+Website: <strong>https://curtiscrewe.co.uk</strong>
 
 Installing FUTApi
 =======
@@ -36,10 +46,6 @@ require 'vendor/autoload.php';
 Documentation
 =============
 
-Players database: https://www.easports.com/uk/fifa/ultimate-team/fut/database
-
-Players database (json): https://www.easports.com/fifa/ultimate-team/web-app/content/B1BA185F-AD7C-4128-8A64-746DE4EC5A82/2018/fut/items/web/players_meta.json
-
 Python source provided by: https://github.com/futapi/fut/
 
 Contact
@@ -54,12 +60,14 @@ Usage
 Login
 -----
 
-Optional parameters:
+Login parameters:
 
+- email: [string] email used for logging into the FIFA 19 WebApp
+- password: [string] password used for logging into the FIFA 19 WebApp
+- platform: [string] pc/ps4/ps4/xbox/xbox360
 - code: [string] email/sms code for two-step verification (make sure to use string if your code starts with 0).
-- platform: [pc/ps3/ps4/xbox/xbox360].
-- emualte: [and/ios] currently DISABLED.
-- cookies: [filename] path to cookies file, if not provided it'll be created in a 'cookies' directory.
+- emulate: [string] currently DISABLED.
+- cookies: [string] path to cookies file, if not provided it'll be created in your temp system directory.
 
 ```php
 use FUTApi\Core;
