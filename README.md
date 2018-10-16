@@ -17,7 +17,7 @@ FIFA 19 Projects
 If you require any projects/systems to be developed alongside the FIFA 19 WebApp API then be sure to contact me using one of the methods below.
 
 Skype: <strong>bws-curtis</strong><br/>
-Email: <strong>wscrewey@hotmail.com</strong>
+Email: <strong>wscrewey@hotmail.com</strong><br/>
 Website: <strong>https://curtiscrewe.co.uk</strong>
 
 Installing FUTApi
