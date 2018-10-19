@@ -546,7 +546,9 @@ class Core
         } catch (FutError $e) {
             return false;
         }
-
+        if(!isset($response['auctionInfo'])) {
+            return false;
+        }
         if ($response['auctionInfo'][0]['bidState'] == 'highest' || ($response['auctionInfo'][0]['tradeState'] == 'closed' && $response['auctionInfo'][0]['bidState'] == 'buyNow')) {
             return true;
         }
