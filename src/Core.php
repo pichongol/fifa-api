@@ -531,7 +531,7 @@ class Core
         return $response;
     }
 
-    public function bid($trade_id, $bid, $fast = false)
+    public function bid($trade_id, $bid, $fast = false, $raw = false)
     {
         if (!$fast) {
             $response = $this->tradeStatus($trade_id);
@@ -539,20 +539,16 @@ class Core
                 return false;
             }
         }
-        try {
-            $response = $this->request('PUT', 'trade/' . $trade_id . '/bid', [
-                'bid' => $bid
-            ]);
-        } catch (FutError $e) {
-            return false;
-        }
+        $response = $this->request('PUT', 'trade/' . $trade_id . '/bid', [
+            'bid' => $bid
+        ]);
         if(!isset($response['auctionInfo'])) {
-            return false;
+            return ($raw === false ? false : $response);
         }
         if ($response['auctionInfo'][0]['bidState'] == 'highest' || ($response['auctionInfo'][0]['tradeState'] == 'closed' && $response['auctionInfo'][0]['bidState'] == 'buyNow')) {
-            return true;
+            return ($raw === false ? true : $response);
         }
-        return false;
+        return ($raw === false ? false : $response);
     }
 
     public function club($sort = 'desc', $ctype = 'player', $defId = null, $start = '0', $count = 91, $level = false)
