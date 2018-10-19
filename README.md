@@ -11,6 +11,11 @@ FIFA 19 WebApp API
 Manage your FIFA 19 Ultimate Team using this FIFA 19 Ultimate Team API.
 Written solely in PHP
 
+FIFA 19 Autobuyer
+=============
+
+Written using this API you can find a completed FIFA 19 Autobuyer here: [FUT19 Buyer](https://github.com/InkedCurtis/FUT19-Buyer)
+
 FIFA 19 Projects
 =============
 
