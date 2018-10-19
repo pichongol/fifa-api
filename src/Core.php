@@ -271,7 +271,7 @@ class Core
 
         //personas
         try {
-            $response = json_decode($this->client->get("https://" . $this->fut_host . "/ut/game/fifa18/user/accountinfo", [
+            $response = json_decode($this->client->get("https://" . $this->fut_host . "/ut/game/fifa19/user/accountinfo", [
                 'query' => [
                     'filterConsoleLogin' => 'true',
                     'sku' => $this->sku,
