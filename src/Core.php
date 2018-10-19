@@ -642,8 +642,6 @@ class Core
             'buyNowPrice' => $buy_now,
             'startingBid' => $bid,
             'duration' => $duration
-        ], [
-            'sku_b' => $this->sku_b
         ]);
         if (!$fast) {
             $this->tradeStatus($response['id']);
