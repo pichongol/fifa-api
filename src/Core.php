@@ -525,8 +525,10 @@ class Core
         }
         $response = $this->request('GET', 'transfermarket', [], $params);
         if ($start == 0) {
-            $event = $this->pin->event('page_view', 'Transfer Market Results - List View');
-            $this->pin->send($event);
+            $events = [];
+            $events[] = $this->pin->event('page_view', 'Transfer Market Results - List View');
+            $events[] = $this->pin->event('page_view', 'Item - Detail View');
+            $this->pin->send($events);
         }
         return $response;
     }
