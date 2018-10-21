@@ -531,14 +531,8 @@ class Core
         return $response;
     }
 
-    public function bid($trade_id, $bid, $fast = false)
+    public function bid($trade_id, $bid)
     {
-        if($fast === false) {
-            $response = $this->tradeStatus($trade_id);
-            if ($response['auctionInfo'][0]['currentBid'] >= $bid || $this->credits < $bid) {
-                return false;
-            }
-        }
         $response = $this->request('PUT', 'trade/' . $trade_id . '/bid', [
             'bid' => $bid
         ]);
