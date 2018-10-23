@@ -20,8 +20,6 @@ class Core
 
     private $client = null;
 
-    private $time = 0;
-
     private $credits = 0;
 
     private $game_sku, $sku, $sku_b, $persona_key = null;
@@ -96,7 +94,6 @@ class Core
                 ]);
                 break;
         }
-        $this->time = time();
     }
 
     public function login()
@@ -812,7 +809,7 @@ class Core
     {
         $url = 'https://' . $this->fut_host . '/ut/game/fifa19/' . $url;
         if ($method == 'GET') {
-            $params['_'] = $this->time;
+            $params['_'] = time();
         }
         if ($delay) {
             sleep(1);
