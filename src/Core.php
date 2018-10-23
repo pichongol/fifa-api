@@ -467,7 +467,7 @@ class Core
         return $response;
     }
 
-    public function searchAuctions($ctype = 'player', $level = null, $category = null, $assetId = null, $defId = null, $min_price = null, $max_price = null, $min_buy = null, $max_buy = null, $league = null, $club = null, $position = null, $zone = null, $nationality = null, $rare = null, $playStyle = null, $start = 0, $page_size = 36, $fast = false)
+    public function searchAuctions($ctype = 'player', $level = null, $category = null, $assetId = null, $defId = null, $min_price = null, $max_price = null, $min_buy = null, $max_buy = null, $league = null, $club = null, $position = null, $zone = null, $nationality = null, $rare = null, $playStyle = null, $start = 0, $page_size = 20)
     {
         if ($start == 0) {
             $events = $this->pin->event('page_view', 'Transfer Market Search');
