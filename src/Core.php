@@ -96,6 +96,7 @@ class Core
                 ]);
                 break;
         }
+        $this->time = time();
     }
 
     public function login()
@@ -242,7 +243,6 @@ class Core
         $dob = $response['pid']['dob'];
         unset($this->clientHeaders['Authorization']);
         $this->clientHeaders['Easw-Session-Data-Nucleus-Id'] = $nucleus_id;
-        $this->time = time();
 
         //shards
         try {
