@@ -263,7 +263,6 @@ class Core
             }
         }
 
-        $this->time += 1;
         $this->fut_host = $this->fut_host[$platform];
 
         //personas
@@ -393,7 +392,6 @@ class Core
         $this->__usermassinfo = json_decode($this->client->request('GET', "https://" . $this->fut_host . "/ut/game/fifa19/usermassinfo", [
             'headers' => $this->clientHeaders
         ])->getBody(), true);
-        $this->time += 1;
         
         //settings
         $this->__settings = json_decode($this->client->request('GET', "https://" . $this->fut_host . "/ut/game/fifa19/settings", [
@@ -402,7 +400,6 @@ class Core
             ],
             'headers' => $this->clientHeaders
         ])->getBody(), true);
-        $this->time += 1;
 
         $piles = $this->pileSize();
         $this->tradepile_size = $piles['tradepile'];
