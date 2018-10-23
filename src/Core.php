@@ -522,9 +522,10 @@ class Core
         }
         $response = $this->request('GET', 'transfermarket', [], $params);
         if ($start == 0) {
-            $events = [];
-            $events[] = $this->pin->event('page_view', 'Transfer Market Results - List View');
-            $events[] = $this->pin->event('page_view', 'Item - Detail View');
+            $events = [
+                $this->pin->event('page_view', 'Transfer Market Results - List View'),
+                $this->pin->event('page_view', 'Item - Detail View')
+            ];
             $this->pin->send($events);
         }
         return $response;
@@ -535,6 +536,11 @@ class Core
         $response = $this->request('PUT', 'trade/' . $trade_id . '/bid', [
             'bid' => $bid
         ]);
+        $events = [
+            $this->pin->event('connection'),
+            $this->pin->event('boot_end', false, false, false, 'normal')
+        ];
+        $this->pin->send($events);
         return $response;
     }
 
