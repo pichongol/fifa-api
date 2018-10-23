@@ -242,7 +242,7 @@ class Core
         $dob = $response['pid']['dob'];
         unset($this->clientHeaders['Authorization']);
         $this->clientHeaders['Easw-Session-Data-Nucleus-Id'] = $nucleus_id;
-        $this->time = (int)(time() * 1000);
+        $this->time = time();
 
         //shards
         try {
