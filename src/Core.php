@@ -396,7 +396,7 @@ class Core
         //settings
         $this->__settings = json_decode($this->client->request('GET', "https://" . $this->fut_host . "/ut/game/fifa19/settings", [
             'query' => [
-                '' => $this->time
+                '' => time()
             ],
             'headers' => $this->clientHeaders
         ])->getBody(), true);
