@@ -448,8 +448,8 @@ class Core
             'redirect_uri' => 'https://www.easports.com/fifa/ultimate-team/web-app/auth.html',
             'release_type' => 'prod'
         ]);
-        $this->request('GET', 'https://www.easports.com/signout', [], ['ct' => $this->time]);
-        $this->request('GET', 'https://accounts.ea.com/connect/clearsid', [], ['ct' => $this->time]);
+        $this->request('GET', 'https://www.easports.com/signout', [], ['ct' => time()]);
+        $this->request('GET', 'https://accounts.ea.com/connect/clearsid', [], ['ct' => time()]);
     }
 
     public function searchDefinition($asset_id, $start = 0, $count = 46)
