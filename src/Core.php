@@ -130,6 +130,7 @@ class Core
             'display' => 'web2/login',
             'locale' => 'en_US',
             'redirect_uri' => 'https://www.easports.com/fifa/ultimate-team/web-app/auth.html',
+            'release_type' => 'prod',
             'scope' => 'basic.identity offline signin'
         ];
         $this->clientHeaders['Referer'] = 'https://www.easports.com/fifa/ultimate-team/web-app/';
