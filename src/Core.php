@@ -632,7 +632,9 @@ class Core
             'duration' => $duration
         ]);
         if (!$fast) {
-            $this->tradeStatus($response['id']);
+            if(isset($response['id'])) {
+                $this->tradeStatus($response['id']);
+            }
         }
         return $response;
     }
