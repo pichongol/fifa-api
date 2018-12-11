@@ -38,7 +38,7 @@ class Core
     {
         $this->credits = 0;
         $this->questionId = 0;
-        $this->cookies_files = ($cookies == false ? tempnam(sys_get_temp_dir(), base64_encode($email)) : $cookies);
+        $this->cookies_files = ($cookies === false ? tempnam(sys_get_temp_dir(), base64_encode($email)) : $cookies);
         $this->clientHeaders = [];
         $this->__usermassinfo = null;
         $this->debug = $debug;
