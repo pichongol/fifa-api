@@ -805,10 +805,15 @@ class Core
         }
         return $assetId;
     }
-
-    public function setHeaders(array $array)
+    
+    public function getHeaders()
     {
-        $this->clientHeaders = array_merge($this->clientHeaders, $array);
+        return $this->clientHeaders;
+    }
+
+    public function setHeaders(array $array, $overwrite = false)
+    {
+        $this->clientHeaders = ($overwrite === false ? array_merge($this->clientHeaders, $array) : $array);
     }
 
     public function request($method, $url, $data = [], $params = [], $delay = false, $headers = false)
