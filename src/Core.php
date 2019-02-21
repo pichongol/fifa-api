@@ -811,7 +811,7 @@ class Core
         $this->clientHeaders = array_merge($this->clientHeaders, $array);
     }
 
-    public function request($method, $url, $data = [], $params = [], $delay = false)
+    public function request($method, $url, $data = [], $params = [], $delay = false, $headers = false)
     {
         $url = 'https://' . $this->fut_host . '/ut/game/fifa19/' . $url;
         if ($method == 'GET') {
@@ -827,7 +827,7 @@ class Core
                 $response = $this->client->request('GET', $url, [
                     'query' => $params,
                     'body' => json_encode($data),
-                    'headers' => $this->clientHeaders,
+                    'headers' => ($headers === false ? $this->clientHeaders : $headers),
                     'debug' => $this->debug
                 ]);
                 break;
@@ -836,7 +836,7 @@ class Core
                 $response = $response = $this->client->request('POST', $url, [
                     'query' => $params,
                     'body' => json_encode($data),
-                    'headers' => $this->clientHeaders,
+                    'headers' => ($headers === false ? $this->clientHeaders : $headers),
                     'debug' => $this->debug
                 ]);
                 break;
@@ -844,7 +844,7 @@ class Core
                 $response = $response = $this->client->request('POST', $url, [
                     'query' => $params,
                     'body' => json_encode($data),
-                    'headers' => $this->clientHeaders,
+                    'headers' => ($headers === false ? $this->clientHeaders : $headers),
                     'debug' => $this->debug
                 ]);
                 break;
@@ -853,7 +853,7 @@ class Core
                 $response = $response = $this->client->request('POST', $url, [
                     'query' => $params,
                     'body' => json_encode($data),
-                    'headers' => $this->clientHeaders,
+                    'headers' => ($headers === false ? $this->clientHeaders : $headers),
                     'debug' => $this->debug
                 ]);
                 break;
