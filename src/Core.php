@@ -124,14 +124,14 @@ class Core
         $this->sku_b = 'FFT19';
         $params = [
             'prompt' => 'login',
-            'accessToken' => '',
+            'accessToken' => 'null',
             'client_id' => $this->client_id,
             'response_type' => 'token',
             'display' => 'web2/login',
             'locale' => 'en_US',
             'redirect_uri' => 'https://www.easports.com/fifa/ultimate-team/web-app/auth.html',
             'release_type' => 'prod',
-            'scope' => 'basic.identity offline signin'
+            'scope' => 'basic.identity offline signin basic.entitlement'
         ];
         $this->clientHeaders['Referer'] = 'https://www.easports.com/fifa/ultimate-team/web-app/';
         $this->client->get("https://accounts.ea.com/connect/auth", [
@@ -320,14 +320,15 @@ class Core
                 'client_id' => 'FOS-SERVER',
                 'redirect_uri' => 'nucleus:rest',
                 'response_type' => 'code',
-                'access_token' => $this->access_token
+                'access_token' => $this->access_token,
+                'release_type' => 'prod'
             ],
             'headers' => $this->clientHeaders
         ])->getBody(), true);
         $auth_code = $response['code'];
 
         $this->clientHeaders['Content-Type'] = "application/json";
-        $response = $this->client->request('POST', "https://" . $this->fut_host . "/ut/auth", [
+        $response = $this->client->request('POST', "https://" . $this->fut_host . "/ut/auth?client=webcomp", [
             'body' => json_encode(array(
                 'isReadOnly' => false,
                 'sku' => $this->sku,
