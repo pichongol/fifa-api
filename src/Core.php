@@ -160,13 +160,14 @@ class Core {
                 'rememberMe' => 'on',
                 '_eventId' => 'submit'
             ];
-            $response = $this->client->post($url, [
+            $response = (string)$this->client->post($url, [
                 'form_params' => $data,
                 'headers' => $this->clientHeaders,
                 'on_stats' => function (TransferStats $stats) use (&$url) {
                     $url = $stats->getEffectiveUri();
                 }
             ])->getBody();
+
             if (strpos($response,"'successfulLogin': false") !== false) {
                 throw new FutError("Your email or password is incorrect.", 0, null, [
                     "reason" => "user_or_pass"
