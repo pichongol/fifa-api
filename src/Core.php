@@ -214,7 +214,7 @@ class Core {
                     ]);
                 }
                 $this->clientHeaders['Referer'] = $url;
-                $response = $this->client->request('POST', str_replace("s3","s4",$url), [
+                $response = (string)$this->client->request('POST', str_replace("s3","s4",$url), [
                     'form_params' => [
                         'oneTimeCode' => $code,
                         '_trustThisDevice' => 'on',
